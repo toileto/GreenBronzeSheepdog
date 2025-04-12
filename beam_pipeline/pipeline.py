@@ -4,7 +4,7 @@ from typing import Dict, Any
 
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
-from apache_beam.io.kafka import ReadFromKafka
+from apache_beam.io.kafka import ReadFromKafka, WriteToKafka
 
 class ParseAndPrint(beam.DoFn):
     def process(self, record):
@@ -23,10 +23,10 @@ class ParseAndPrint(beam.DoFn):
             # parsed_record = json.loads(record.decode('utf-8'))
 
             data = dict()
-            data['data'] = parsed_record['after']
-            data['data']['op'] = parsed_record['op']
-            data['data']['cdc_ts'] = parsed_record['ts_ms']
-            data['data']['source_table'] = parsed_record['source']['table']
+            data = parsed_record['after']
+            data['op'] = parsed_record['op']
+            data['cdc_ts'] = parsed_record['ts_ms']
+            data['source_table'] = parsed_record['source']['table']
 
 
             # # Extract relevant information
@@ -62,7 +62,7 @@ def run(bootstrap_servers, topic, pipeline_args=None):
     # pipeline_options = PipelineOptions(pipeline_args)
 
     with beam.Pipeline(options=pipeline_options) as pipeline:
-        (
+        parsed_records = (
             pipeline
                 | 'Read from Kafka' >> ReadFromKafka(
                         consumer_config={
@@ -76,7 +76,22 @@ def run(bootstrap_servers, topic, pipeline_args=None):
                         max_num_records=5
                     )
                 | 'Parse Message' >> beam.ParDo(ParseAndPrint())
-                | 'Print' >> beam.Map(print)
+        )
+
+        process_records = (
+            parsed_records
+            | "EnforceBytes" >> beam.Map(lambda record: (
+                record['source_table'].encode('utf-8'),
+                json.dumps(record).encode('utf-8')
+                )
+            ).with_output_types(tuple[bytes, bytes])
+            | "WriteToKafka" >> WriteToKafka(
+                producer_config={
+                    'bootstrap.servers': bootstrap_servers,
+                    'group.id': 'agriaku'
+                },
+                topic="L1_datalake_schedule"
+            )
         )
 
 if __name__ == "__main__":
@@ -88,7 +103,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         '--topic',
-        default='cdc_source_combined',
+        default='schedule',
         help='Kafka topic to read from'
     )
 

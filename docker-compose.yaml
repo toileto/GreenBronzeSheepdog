@@ -106,33 +106,38 @@ services:
       - ./clickhouse_config:/docker-entrypoint-initdb.d
     ulimits: { nofile: { soft: 262144, hard: 262144 } }
     networks: [data-pipeline-net]
-    healthcheck: { test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"], interval: 10s, timeout: 5s, retries: 5 }
-
-  # --- Orchestration: Apache Airflow ---
-  airflow-postgres: # Metadata database for Airflow
-    image: postgres:13
-    container_name: airflow-postgres
-    hostname: airflow-postgres
-    environment: { POSTGRES_USER: airflow_user, POSTGRES_PASSWORD: airflow_pass, POSTGRES_DB: airflow_db, PGDATA: /var/lib/postgresql/data/pgdata }
-    volumes: ["airflow-pgdata:/var/lib/postgresql/data/pgdata"]
-    networks: [data-pipeline-net]
-    healthcheck: { test: ["CMD-SHELL", "pg_isready -U airflow_user -d airflow_db"], interval: 10s, timeout: 5s, retries: 5 }
-
-  airflow-webserver:
-    <<: *airflow-common
-    container_name: airflow-webserver
-    command: bash -c "airflow db init && airflow webserver"
-    ports: ["8080:8080"] # Airflow UI
-    healthcheck: { test: ["CMD", "curl", "--fail", "http://localhost:8080/health"], interval: 30s, timeout: 10s, retries: 5 }
-    networks: [data-pipeline-net]
-
-  airflow-scheduler:
-    <<: *airflow-common
-    container_name: airflow-scheduler
-    command: bash -c "airflow db init && airflow scheduler"
-    depends_on:
-      airflow-postgres:
-        condition: service_healthy
+    healthcheck: {
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"],
+      interval: 10s,
+      timeout: 5s,
+      retries: 5
+    }
+#
+#  # --- Orchestration: Apache Airflow ---
+#  airflow-postgres: # Metadata database for Airflow
+#    image: postgres:13
+#    container_name: airflow-postgres
+#    hostname: airflow-postgres
+#    environment: { POSTGRES_USER: airflow_user, POSTGRES_PASSWORD: airflow_pass, POSTGRES_DB: airflow_db, PGDATA: /var/lib/postgresql/data/pgdata }
+#    volumes: ["airflow-pgdata:/var/lib/postgresql/data/pgdata"]
+#    networks: [data-pipeline-net]
+#    healthcheck: { test: ["CMD-SHELL", "pg_isready -U airflow_user -d airflow_db"], interval: 10s, timeout: 5s, retries: 5 }
+#
+#  airflow-webserver:
+#    <<: *airflow-common
+#    container_name: airflow-webserver
+#    command: bash -c "airflow db init && airflow webserver"
+#    ports: ["8080:8080"] # Airflow UI
+#    healthcheck: { test: ["CMD", "curl", "--fail", "http://localhost:8080/health"], interval: 30s, timeout: 10s, retries: 5 }
+#    networks: [data-pipeline-net]
+#
+#  airflow-scheduler:
+#    <<: *airflow-common
+#    container_name: airflow-scheduler
+#    command: bash -c "airflow db init && airflow scheduler"
+#    depends_on:
+#      airflow-postgres:
+#        condition: service_healthy
 
 # --- Shared Network ---
 networks:
