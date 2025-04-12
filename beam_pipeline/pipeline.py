@@ -22,18 +22,25 @@ class ParseAndPrint(beam.DoFn):
 
             # parsed_record = json.loads(record.decode('utf-8'))
 
-            # Extract relevant information
-            operation = parsed_record.get('op')
-            table = parsed_record.get('source', {}).get('table')
+            data = dict()
+            data['data'] = parsed_record['after']
+            data['data']['op'] = parsed_record['op']
+            data['data']['cdc_ts'] = parsed_record['ts_ms']
+            data['data']['source_table'] = parsed_record['source']['table']
 
-            if operation == 'c':
-                op_type = "INSERT"
-            elif operation == 'u':
-                op_type = "UPDATE"
-            elif operation == 'd':
-                op_type = "DELETE"
-            else:
-                op_type = f"UNKNOWN ({operation})"
+
+            # # Extract relevant information
+            # operation = parsed_record.get('op')
+            # table = parsed_record.get('source', {}).get('table')
+            #
+            # if operation == 'c':
+            #     op_type = "INSERT"
+            # elif operation == 'u':
+            #     op_type = "UPDATE"
+            # elif operation == 'd':
+            #     op_type = "DELETE"
+            # else:
+            #     op_type = f"UNKNOWN ({operation})"
 
             # # Print the record with some basic information
             # print(f"\n=== {op_type} on {table} ===")
@@ -43,7 +50,7 @@ class ParseAndPrint(beam.DoFn):
             # print(f"Transaction: {parsed_record.get('transaction')}")
             # print("===========================\n")
 
-            yield parsed_record
+            yield data
 
         except json.JSONDecodeError as e:
             print(f"Error parsing record: {e}")
@@ -51,8 +58,8 @@ class ParseAndPrint(beam.DoFn):
             yield {"error": str(e), "raw_record": record}
 
 def run(bootstrap_servers, topic, pipeline_args=None):
-    # pipeline_options = PipelineOptions(pipeline_args, streaming=True)
-    pipeline_options = PipelineOptions(pipeline_args)
+    pipeline_options = PipelineOptions(pipeline_args, streaming=True)
+    # pipeline_options = PipelineOptions(pipeline_args)
 
     with beam.Pipeline(options=pipeline_options) as pipeline:
         (
@@ -60,7 +67,9 @@ def run(bootstrap_servers, topic, pipeline_args=None):
                 | 'Read from Kafka' >> ReadFromKafka(
                         consumer_config={
                             'bootstrap.servers': bootstrap_servers,
-                            'auto.offset.reset': 'earliest'
+                            'auto.offset.reset': 'earliest',
+                            'group.id': 'agriaku',
+                            'enable.auto.commit': 'true'
                         },
                         topics=[topic],
                         with_metadata=False,
@@ -68,7 +77,7 @@ def run(bootstrap_servers, topic, pipeline_args=None):
                     )
                 | 'Parse Message' >> beam.ParDo(ParseAndPrint())
                 | 'Print' >> beam.Map(print)
-         )
+        )
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

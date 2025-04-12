@@ -26,3 +26,8 @@ http://localhost:8083/connectors/ -d '{
     "transforms.route.topic.replacement": "cdc_source_combined"
   }
 }'
+
+#docker exec -it kafka kafka-console-consumer \
+#    --bootstrap-server kafka:9092 \
+#    --topic cdc_source_combined \
+#    --from-beginning
