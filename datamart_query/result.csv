@@ -1,0 +1,110 @@
+"SEMESTER","WEEK_ID","COURSE_NAME","ATTENDANCE_PERCENTAGE"
+1,1,Applied Data Science,100.0
+1,2,Applied Data Science,100.0
+1,3,Applied Data Science,75.0
+1,4,Applied Data Science,50.0
+1,5,Applied Data Science,100.0
+1,6,Applied Data Science,75.0
+1,7,Applied Data Science,100.0
+1,8,Applied Data Science,100.0
+1,9,Applied Data Science,75.0
+1,10,Applied Data Science,75.0
+1,11,Applied Data Science,75.0
+1,12,Applied Data Science,75.0
+1,13,Applied Data Science,75.0
+1,14,Applied Data Science,100.0
+1,1,Data Mining,100.0
+1,2,Data Mining,100.0
+1,3,Data Mining,100.0
+1,4,Data Mining,100.0
+1,5,Data Mining,100.0
+1,6,Data Mining,100.0
+1,7,Data Mining,100.0
+1,8,Data Mining,100.0
+1,9,Data Mining,100.0
+1,10,Data Mining,100.0
+1,11,Data Mining,100.0
+1,12,Data Mining,100.0
+1,13,Data Mining,100.0
+1,1,Introduction to Applied Machine Learning,83.33333333333333
+1,2,Introduction to Applied Machine Learning,100.0
+1,3,Introduction to Applied Machine Learning,100.0
+1,4,Introduction to Applied Machine Learning,50.0
+1,5,Introduction to Applied Machine Learning,50.0
+1,6,Introduction to Applied Machine Learning,100.0
+1,7,Introduction to Applied Machine Learning,83.33333333333333
+1,8,Introduction to Applied Machine Learning,66.66666666666667
+1,9,Introduction to Applied Machine Learning,100.0
+1,10,Introduction to Applied Machine Learning,100.0
+1,11,Introduction to Applied Machine Learning,100.0
+1,12,Introduction to Applied Machine Learning,83.33333333333333
+1,13,Introduction to Applied Machine Learning,66.66666666666667
+1,14,Introduction to Applied Machine Learning,83.33333333333333
+1,15,Introduction to Applied Machine Learning,83.33333333333333
+1,1,Statistic,100.0
+1,2,Statistic,100.0
+1,3,Statistic,50.0
+1,4,Statistic,50.0
+1,5,Statistic,50.0
+1,6,Statistic,100.0
+1,7,Statistic,50.0
+1,8,Statistic,100.0
+1,9,Statistic,50.0
+1,10,Statistic,100.0
+1,11,Statistic,50.0
+1,12,Statistic,50.0
+1,13,Statistic,100.0
+2,1,Data Mining,75.0
+2,2,Data Mining,100.0
+2,3,Data Mining,100.0
+2,4,Data Mining,100.0
+2,5,Data Mining,100.0
+2,6,Data Mining,75.0
+2,7,Data Mining,100.0
+2,8,Data Mining,100.0
+2,9,Data Mining,100.0
+2,10,Data Mining,100.0
+2,11,Data Mining,100.0
+2,12,Data Mining,100.0
+2,13,Data Mining,100.0
+2,1,Introduction to Applied Machine Learning,100.0
+2,2,Introduction to Applied Machine Learning,100.0
+2,3,Introduction to Applied Machine Learning,100.0
+2,4,Introduction to Applied Machine Learning,100.0
+2,5,Introduction to Applied Machine Learning,100.0
+2,6,Introduction to Applied Machine Learning,100.0
+2,7,Introduction to Applied Machine Learning,100.0
+2,8,Introduction to Applied Machine Learning,100.0
+2,9,Introduction to Applied Machine Learning,100.0
+2,10,Introduction to Applied Machine Learning,100.0
+2,11,Introduction to Applied Machine Learning,100.0
+2,12,Introduction to Applied Machine Learning,100.0
+2,13,Introduction to Applied Machine Learning,100.0
+2,14,Introduction to Applied Machine Learning,100.0
+2,1,Natural Language Processing,100.0
+2,2,Natural Language Processing,100.0
+2,3,Natural Language Processing,100.0
+2,4,Natural Language Processing,100.0
+2,5,Natural Language Processing,100.0
+2,6,Natural Language Processing,100.0
+2,7,Natural Language Processing,100.0
+2,8,Natural Language Processing,100.0
+2,9,Natural Language Processing,100.0
+2,10,Natural Language Processing,100.0
+2,11,Natural Language Processing,100.0
+2,12,Natural Language Processing,100.0
+2,13,Natural Language Processing,100.0
+2,14,Natural Language Processing,100.0
+2,1,Python Programming,100.0
+2,2,Python Programming,100.0
+2,3,Python Programming,100.0
+2,4,Python Programming,100.0
+2,5,Python Programming,100.0
+2,6,Python Programming,100.0
+2,7,Python Programming,100.0
+2,8,Python Programming,100.0
+2,9,Python Programming,100.0
+2,10,Python Programming,100.0
+2,11,Python Programming,100.0
+2,12,Python Programming,100.0
+2,13,Python Programming,100.0
