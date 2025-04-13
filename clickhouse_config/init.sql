@@ -45,3 +45,72 @@ SELECT
 FROM kafka.schedule
 SETTINGS
     stream_like_engine_allow_direct_select = 1;
+
+-- For ETL challenge
+CREATE DATABASE IF NOT EXISTS challenge;
+-- L1_datalake.course definition
+
+CREATE TABLE challenge.course
+(
+
+    `ID` UInt64,
+
+    `NAME` String
+)
+ENGINE = MergeTree()
+ORDER BY ID;
+
+-- L1_datalake.course_attendance definition
+
+CREATE TABLE challenge.course_attendance
+(
+
+    `ID` UInt64,
+
+    `STUDENT_ID` UInt64,
+
+    `SCHEDULE_ID` UInt64,
+
+    `ATTEND_DT` Date
+)
+ENGINE = MergeTree()
+ORDER BY (SCHEDULE_ID,
+ STUDENT_ID,
+ ATTEND_DT);
+
+-- enrollment definition
+
+CREATE TABLE challenge.enrollment
+(
+
+    `ID` UInt64,
+
+    `STUDENT_ID` UInt64,
+
+    `SCHEDULE_ID` UInt64,
+
+    `ACADEMIC_YEAR` String,
+
+    `SEMESTER` UInt8,
+
+    `ENROLL_DT` Date
+)
+ENGINE = MergeTree()
+ORDER BY (SCHEDULE_ID,
+ STUDENT_ID,
+ ENROLL_DT);
+
+-- schedule definition
+CREATE TABLE IF NOT EXISTS challenge.schedule
+(
+    ID UInt64,
+    COURSE_ID UInt64,
+    LECTURER_ID UInt64,
+    START_DT Date,
+    END_DT Date,
+    COURSE_DAYS String
+)
+ENGINE = MergeTree()
+ORDER BY ID;
+
+
