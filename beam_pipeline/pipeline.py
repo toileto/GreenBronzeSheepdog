@@ -16,39 +16,14 @@ class ParseAndPrint(beam.DoFn):
                 item_dict = json.loads(decoded_item)
 
                 #  Combine dictionaries, handling potential key conflicts.
-                #  If a key exists in both, the value from the *second*
-                #  dictionary (item_dict) will overwrite the value from the first.
                 parsed_record.update(item_dict)
 
-            # parsed_record = json.loads(record.decode('utf-8'))
 
             data = dict()
             data = parsed_record['after']
             data['op'] = parsed_record['op']
             data['cdc_ts'] = parsed_record['ts_ms']
             data['source_table'] = parsed_record['source']['table']
-
-
-            # # Extract relevant information
-            # operation = parsed_record.get('op')
-            # table = parsed_record.get('source', {}).get('table')
-            #
-            # if operation == 'c':
-            #     op_type = "INSERT"
-            # elif operation == 'u':
-            #     op_type = "UPDATE"
-            # elif operation == 'd':
-            #     op_type = "DELETE"
-            # else:
-            #     op_type = f"UNKNOWN ({operation})"
-
-            # # Print the record with some basic information
-            # print(f"\n=== {op_type} on {table} ===")
-            # print(f"Before: {parsed_record.get('before')}")
-            # print(f"After: {parsed_record.get('after')}")
-            # print(f"Source: {parsed_record.get('source')}")
-            # print(f"Transaction: {parsed_record.get('transaction')}")
-            # print("===========================\n")
 
             yield data
 
